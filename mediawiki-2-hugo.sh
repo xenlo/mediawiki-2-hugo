@@ -17,7 +17,7 @@ usage(){
     echo "Usage: ${0} [-v] [-i mediawiki_dir] [-o out_dir] [-t timezone] [-c charset]"
     echo "    -i mediawiki_dir   Specify the MediaWiki root directory as input (default: /var/www/mediawiki/)"
     echo "    -o out_dir         Specify output directory (default: ./out)"
-    echo "    -t timezone        Specify your timezone offeset (default: +02:00)"
+    echo "    -t timezone        Specify your timezone offset (default: +02:00)"
     echo "    -c charset         Specify the DB charset (default: binary)"
     echo "    -v                 Verbose"
     exit 1
