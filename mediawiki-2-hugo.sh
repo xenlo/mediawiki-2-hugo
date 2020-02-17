@@ -19,6 +19,7 @@ usage(){
     echo "    -o out_dir         Specify output directory (default: ./out)"
     echo "    -t timezone        Specify your timezone offset (default: +02:00)"
     echo "    -c charset         Specify the DB charset (default: binary)"
+    echo "    -f frontmatter     Specify a file with extra Front Matter entries" 
     echo "    -v                 Verbose"
     exit 1
 }
@@ -45,7 +46,14 @@ validate_out_dir(){
     fi
 }
 
-while getopts 'i:o:t:c:v' OPTION; do
+validate_extra_frontmatter(){
+    if [[ ! -f ${1} ]]; then
+        echo "Error: no file ${1}"
+        exit 1
+    fi
+}
+
+while getopts 'i:o:t:c:f:v' OPTION; do
   case "$OPTION" in
     i)
         mediawiki_dir="${OPTARG}"
@@ -58,6 +66,9 @@ while getopts 'i:o:t:c:v' OPTION; do
         ;;
     c)
         charset="${OPTARG}"
+        ;;
+    f)
+        extra_frontmatter="${OPTARG}"
         ;;
     v)
         verbose=true
@@ -201,8 +212,11 @@ for page in "${pages[@]}"; do
     while read page_category; do
         echo "  - ${page_category}"                           >> ${out_file}
     done < <(printf '%s\n' "${page_categories}")
-    echo "tags: " >> ${out_file}
-    echo "aliases: " >> ${out_file}
+    echo "tags: "                                             >> ${out_file}
+    echo "aliases: "                                          >> ${out_file}
+    if [[ -n "${extra_frontmatter}" ]]; then
+        cat ${extra_frontmatter}                              >> ${out_file}
+    fi
     echo "---" >> ${out_file}
 
     if [[ ${NAME_SPACES[$page_namespace_id]} == "file" ]]; then
