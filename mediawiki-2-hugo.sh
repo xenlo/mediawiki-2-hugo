@@ -19,7 +19,13 @@ usage(){
     echo "    -o out_dir         Specify output directory (default: ./out)"
     echo "    -t timezone        Specify your timezone offset (default: +02:00)"
     echo "    -c charset         Specify the DB charset (default: binary)"
-    echo "    -f frontmatter     Specify a file with extra Front Matter entries" 
+    echo "    -f frontmatter     Specify a file with extra Front Matter entries"
+    echo "    -w format_script   Specify a script which pre-processing the wiki content text,"
+    echo "                       any script taking wiki text from standart input and return the edited wiki text as standard output"
+    echo "    -m format_script   Specify a script which post-processing the MD content text,"
+    echo "                       any script taking MarkDown text from standart input and return the edited MarkDown text as standard output"
+    echo "    -M md_format       Specify the destination MarkDown format as pandoc will accept for --to argument,"
+    echo"                        (default: `markdown_strict+backtick_code_blocks`)"
     echo "    -v                 Verbose"
     exit 1
 }
@@ -53,7 +59,12 @@ validate_extra_frontmatter(){
     fi
 }
 
-while getopts 'i:o:t:c:f:v' OPTION; do
+# Set few default values
+wiki_preprocess="cat -"
+md_postprocess="cat -"
+md_format="markdown_strict+backtick_code_blocks"
+
+while getopts 'i:o:t:c:f:w:m:M:v' OPTION; do
   case "$OPTION" in
     i)
         mediawiki_dir="${OPTARG}"
@@ -69,6 +80,15 @@ while getopts 'i:o:t:c:f:v' OPTION; do
         ;;
     f)
         extra_frontmatter="${OPTARG}"
+        ;;
+    w)
+        wiki_preprocess="./${OPTARG}"
+        ;;
+    m)
+        md_postprocess="./${OPTARG}"
+        ;;
+    M)
+        md_format="./${OPTARG}"
         ;;
     v)
         verbose=true
@@ -224,7 +244,7 @@ for page in "${pages[@]}"; do
         echo "![${page_title}](images/${page_title//\//-})" >> ${out_file}
     else
         # Insert the context formated in MD
-        echo -e "${text_content}" | pandoc --from=mediawiki --to=markdown_github --atx-headers >> ${out_file}
+        echo -e "${text_content}" | ${wiki_preprocess} | pandoc --from=mediawiki --to=${md_format} --atx-headers | ${md_postprocess}>> ${out_file}
     fi
     echo ""                                                   >> ${out_file}
 done
