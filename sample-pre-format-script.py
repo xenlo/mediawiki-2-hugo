@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 
+""" Sample of pre-processing formating script """
+
 __author__ = "xenlo (Laurent G.)"
 __license__ = "Apache v2.0"
 
