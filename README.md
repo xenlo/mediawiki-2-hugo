@@ -1,4 +1,7 @@
 # MediaWiki-2-Hugo #
+
+![mediawiki-2-hugo_logo](https://github.com/xenlo/mediawiki-2-hugo/blob/master/images/mediawiki-2-hugo_logo.png?raw=true)
+
 Migration script from MediaWiki to Hugo
 
 ## Intro ##
@@ -70,6 +73,7 @@ It's working but far from perfect. Lot's of stuff are not handled as you can see
 - Handle the verbosity
 - Manage template into html snippet
 - Further test of output in Hugo
+- Ensure that the inital logo respects the licences of Hugo and MediaWiki images
 - Correct the [known bugs](https://github.com/xenlo/mediawiki-2-hugo/issues?q=is%3Aissue+is%3Aopen+label%3Abug)
 
 ### Later, Further Improvements ###
