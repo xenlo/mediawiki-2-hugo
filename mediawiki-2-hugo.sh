@@ -25,7 +25,7 @@ usage(){
     echo "    -m format_script   Specify a script which post-processing the MD content text,"
     echo "                       any script taking MarkDown text from standart input and return the edited MarkDown text as standard output"
     echo "    -M md_format       Specify the destination MarkDown format as pandoc will accept for --to argument,"
-    echo"                        (default: `markdown_strict+backtick_code_blocks`)"
+    echo "                       (default: \`markdown_strict+backtick_code_blocks\`)"
     echo "    -v                 Verbose"
     exit 1
 }
@@ -64,7 +64,7 @@ wiki_preprocess="cat -"
 md_postprocess="cat -"
 md_format="markdown_strict+backtick_code_blocks"
 
-while getopts 'i:o:t:c:f:w:m:M:v' OPTION; do
+while getopts 'hi:o:t:c:f:w:m:M:v' OPTION; do
   case "$OPTION" in
     i)
         mediawiki_dir="${OPTARG}"
@@ -93,7 +93,7 @@ while getopts 'i:o:t:c:f:w:m:M:v' OPTION; do
     v)
         verbose=true
         ;;
-    ?)
+    h|?)
         usage
         ;;
   esac

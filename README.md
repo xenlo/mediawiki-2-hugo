@@ -10,18 +10,24 @@ In my use case, my MediaWiki instance was hosting several notes and HowTo's. So,
 The useful variables are customizable via arguments of the shell script.
 ```
 xenlo@red-carpet:~/Scripts/$ ./mediawiki-2-hugo.sh -h
-./mediawiki-2-hugo.sh : option non permise -- h
 Usage: ./mediawiki-2-hugo.sh [-v] [-i mediawiki_dir] [-o out_dir] [-t timezone] [-c charset]
     -i mediawiki_dir   Specify the MediaWiki root directory as input (default: /var/www/mediawiki/)
     -o out_dir         Specify output directory (default: ./out)
     -t timezone        Specify your timezone offset (default: +02:00)
     -c charset         Specify the DB charset (default: binary)
+    -f frontmatter     Specify a file with extra Front Matter entries
+    -w format_script   Specify a script which pre-processing the wiki content text,
+                       any script taking wiki text from standart input and return the edited wiki text as standard output
+    -m format_script   Specify a script which post-processing the MD content text,
+                       any script taking MarkDown text from standart input and return the edited MarkDown text as standard output
+    -M md_format       Specify the destination MarkDown format as pandoc will accept for --to argument,
+                       (default: `markdown_strict+backtick_code_blocks`)
     -v                 Verbose
 ```
 
 So simply run the script, eventually with sudo as apache user (if yours don't have read access to the MediaWiki directory).
 ```
-sudo -u www-data ./mediawiki-2-hugo.sh -i /var/www/my_wiki -o /tmp/output
+sudo -u www-data ./mediawiki-2-hugo.sh -i /var/www/my_wiki -o /tmp/output -w my-pre-format-script.py
 ```
 
 ## What does this script? ##
