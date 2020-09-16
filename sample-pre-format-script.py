@@ -30,7 +30,9 @@ def render_code_block(lines):
       code_block.append(preform_txt_regex.sub('', line))
     else:
       if code_block != []:
-        output.append("<syntaxhighlight lang='shell'>\n{}</syntaxhighlight>\n".format(code_block))
+        output.append("<syntaxhighlight lang='shell'>\n")
+        output = output + code_block
+        output.append("</syntaxhighlight>\n")
         code_block = []
       output.append(line)
   return output
