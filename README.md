@@ -7,7 +7,7 @@ Migration script from MediaWiki to Hugo
 ## Intro ##
 This is a shell script I wrote to migrate my MediaWiki instance into a Hugo static website.
 
-In my use case, my MediaWiki instance was hosting several notes and HowTo's. So, it was a quite small instance (256 pages in 8 NameSpaces and 16 Categories illustrated by 61 images). And even, it takes ~25sec to process. This is certainly not the best approach to migrate huge instance of MediaWiki. Nevertheless, as I didn't found anything similar doing that, I think this script could really help other, even it should be improved.
+In my use case, my MediaWiki instance was hosting several notes and HowTo's. So, it was a quite small instance (256 pages in 8 NameSpaces and 16 Categories illustrated by 61 images). And even, it takes ~25sec to process. This is certainly not the best approach to migrate huge instance of MediaWiki. Nevertheless, as I didn't found anything similar doing that, I think this script could really helps other, even it should be improved.
 
 ## How To use it? ##
 The useful variables are customizable via arguments of the shell script.
@@ -35,7 +35,7 @@ sudo -u www-data ./mediawiki-2-hugo.sh -i /var/www/my_wiki -o /tmp/output -w my-
 
 ## What does this script? ##
 The script will first load the credentials from `LocalSettings.php` file and use it to read all wiki pages data in the database.
-From there, ti generates in a destination directory (`DEST_DIR` is set as `./out` by default) a structure of subdirectories which matches the [MediaWiki namespaces](https://www.mediawiki.org/wiki/Manual:Namespace#Built-in_namespaces).
+From there, it generates a structure of subdirectories (which matches the [MediaWiki namespaces](https://www.mediawiki.org/wiki/Manual:Namespace#Built-in_namespaces)) in a destination directory (`DEST_DIR` is set as `./out` by default).
 
 Then for each wiki page (each record of `page` in the SQL DB) it will generate a `.md` file. And each file will be filled in with servral attributes ([front matters](https://gohugo.io/content-management/front-matter/) in Hugo language) and with the page's content.
 
@@ -53,7 +53,7 @@ This script is fetching and filling the following data:
 ### Content ###
 And of course, it fetch the content of each pages in its latest version, and convert it in MarkDown (github flavour).
 
-:warning: This use pandoc tool to convert the MediaWiki syntax into the MarkDown. Please ensure that `pandoc` is accessible 
+:warning: This use pandoc tool to convert the MediaWiki syntax into the MarkDown. Please ensure that `pandoc` is installed and accessible.
 
 ## How does it works? / What does it need? ##
 
