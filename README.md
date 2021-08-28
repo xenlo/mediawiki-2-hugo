@@ -88,6 +88,33 @@ It's working but far from perfect. Lot's of stuff are not handled as you can see
 - **Front matters of theme**: In the theme I plan to use ([Tranquilpeak](https://github.com/kakawait/hugo-tranquilpeak-theme/)) I don't saw any interesting attribute that could be fed with data from the MediaWiki.
 
 
+### Notes ###
+
+There's deeply rooted problem with exporting from Mediawiki in that the parsing of
+the page contents is not context-free. The content parser (Parsoid) needs
+access to the Mediawiki instance, because it needs to look up the wiki
+configuration, templates and other data ([discussion][parsing]).
+
+[parsing]: https://lists.wikimedia.org/hyperkitty/list/wikitech-l@lists.wikimedia.org/message/GHIKY4M7MVM6VC6KLTXKAIKKTNCMXERS/ "Re: [Wikitech-l] Losing the history of our projects to bitrot. Was: Acquiring list of templates including external links"
+
+The possible approaches are:
+
+* Querying the database
+* Using the XML export
+* Crawling a running Mediawiki instance and parsing HTML
+* Instrumenting Parsoid at the level of AST
+
+HTML crawling and XML exports could be combined. Crawling the site would
+provide the most complete content conversion, and the XML would provide the
+metadata.
+
+The Parsoid approach would be the most complete, but also the most demanding in
+terms of implementation. It would probably also need to be coupled with reading
+metadata from the XML export or the database. The export from Parsoid wouldn't
+necessarily have to be specific to Hugo, it could be an intermediate,
+machine-readable format, which could be transformed into Hugo, or any other
+format.
+
 ## License ##
 Copyright 2019 Laurent G (xenlo)
 
